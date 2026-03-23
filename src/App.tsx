@@ -27,9 +27,10 @@ const App: React.FC = () => {
         ...parsedStory,
         characters: result.characters
       });
-    } catch (error) {
-      alert("Ошибка при генерации сценариев. Попробуйте еще раз.");
-      console.error(error);
+    } catch (error: any) {
+      const message = error instanceof Error ? error.message : "Неизвестная ошибка";
+      alert(`Ошибка при генерации: ${message}`);
+      console.error("Full generation error:", error);
     } finally {
       setIsLoading(false);
     }
