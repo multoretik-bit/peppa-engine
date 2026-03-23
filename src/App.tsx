@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import StoryInput from './components/StoryInput';
 import ScenarioList from './components/ScenarioList';
-import { generateScenarios, parseStory } from './utils/engine';
+import { parseStory } from './utils/engine';
+import { generateAIScenarios } from './utils/ai';
 import { Scenario, Story } from './types';
 import './App.css';
 
@@ -10,18 +11,28 @@ const App: React.FC = () => {
   const [story, setStory] = useState<Story | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleGenerate = (text: string): void => {
+  const handleGenerate = async (text: string, count: number): Promise<void> => {
     setIsLoading(true);
     setScenarios([]);
+    setStory(null);
     
-    // Симуляция задержки для "анализа"
-    setTimeout(() => {
+    try {
       const parsedStory = parseStory(text);
-      const generated = generateScenarios(parsedStory);
       setStory(parsedStory);
-      setScenarios(generated);
+      
+      const result = await generateAIScenarios(text, count);
+      
+      setScenarios(result.scenarios);
+      setStory({
+        ...parsedStory,
+        characters: result.characters
+      });
+    } catch (error) {
+      alert("Ошибка при генерации сценариев. Попробуйте еще раз.");
+      console.error(error);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
