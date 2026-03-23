@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [story, setStory] = useState<Story | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleGenerate = async (text: string, count: number): Promise<void> => {
+  const handleGenerate = async (text: string, count: number, apiKey?: string): Promise<void> => {
     setIsLoading(true);
     setScenarios([]);
     setStory(null);
@@ -20,7 +20,7 @@ const App: React.FC = () => {
       const parsedStory = parseStory(text);
       setStory(parsedStory);
       
-      const result = await generateAIScenarios(text, count);
+      const result = await generateAIScenarios(text, count, apiKey);
       
       setScenarios(result.scenarios);
       setStory({
