@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check } from 'lucide-react';
 import { Scenario } from '../types';
@@ -8,10 +8,10 @@ interface ScenarioListProps {
 }
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ scenarios }) => {
-  const [copiedId, setCopiedId] = React.useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const copyToClipboard = (scenario: Scenario) => {
-    const text = `${scenario.title}\n\n${scenario.description}\n\nШаги:\n${scenario.steps.map(s => `- ${s}`).join('\n')}\n\nИтог: ${scenario.outcome}`;
+  const copyToClipboard = (scenario: Scenario): void => {
+    const text: string = `${scenario.title}\n\n${scenario.description}\n\nШаги:\n${scenario.steps.map(s => `- ${s}`).join('\n')}\n\nИтог: ${scenario.outcome}`;
     navigator.clipboard.writeText(text);
     setCopiedId(scenario.id);
     setTimeout(() => setCopiedId(null), 2000);

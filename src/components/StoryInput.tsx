@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { motion } from 'framer-motion';
 
 interface StoryInputProps {
@@ -7,7 +7,11 @@ interface StoryInputProps {
 }
 
 const StoryInput: React.FC<StoryInputProps> = ({ onGenerate, isLoading }) => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    setText(e.target.value);
+  };
 
   return (
     <motion.div 
@@ -22,7 +26,7 @@ const StoryInput: React.FC<StoryInputProps> = ({ onGenerate, isLoading }) => {
       <textarea
         placeholder="Например: Иван отправился в лес, где встретил старого мудреца..."
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={handleChange}
         className="story-textarea"
       />
       

@@ -5,12 +5,12 @@ import { generateScenarios, parseStory } from './utils/engine';
 import { Scenario, Story } from './types';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [story, setStory] = useState<Story | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleGenerate = (text: string) => {
+  const handleGenerate = (text: string): void => {
     setIsLoading(true);
     setScenarios([]);
     
